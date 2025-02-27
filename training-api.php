@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->addAddress("{$data['email']}");
 
         $mail->isHTML(true);
-        $mail->Subject = 'Heeey';
+        $mail->Subject = ('Capacitación con CIM - ' . $selectedDate);
         $mail->Body = '
             <!DOCTYPE html>
             <html lang="en">
