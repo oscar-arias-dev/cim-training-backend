@@ -13,8 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $trainingCount = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($trainingCount) {
             echo json_encode($trainingCount);
+            return;
         } else {
             echo json_encode(["error" => "Enrollments not found"]);
+            return;
         }
     }
     if ($api === "trainings_participants") {
@@ -60,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $trainingId = $fetchedDates[0]['id'];
     }
-    $stmt = $conn->prepare("INSERT INTO participants (email, fullname, phone_number, whatsapp) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$data['email'], $data['fullname'], $data['phone_number'], $data['whatsapp']]);
+    $stmt = $conn->prepare("INSERT INTO participants (email, fullname, phone_number, whatsapp, customer) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$data['email'], $data['fullname'], $data['phone_number'], $data['whatsapp'], $data['customer']]);
     $participantId = $conn->lastInsertId();
     $stmt = $conn->prepare("INSERT INTO enrollments (id_training, id_participant) VALUES (?, ?)");
     $stmt->execute([$trainingId, $participantId]);
