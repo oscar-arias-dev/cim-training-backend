@@ -1,5 +1,9 @@
 <?php
 include 'db.php';
+require_once "vendor/autoload.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 header('Content-Type: application/json');
 $meetTuesday = 'https://meet.google.com/fyk-pjyw-fro';
 $meetThursday = 'https://meet.google.com/udb-ycho-qym';
@@ -68,6 +72,151 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare("INSERT INTO enrollments (id_training, id_participant) VALUES (?, ?)");
     $stmt->execute([$trainingId, $participantId]);
     echo json_encode(["p" => $participantId, "t" => $trainingId]);
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->Username = "oscararias@tecnomotum.com";
+        $mail->Password = "fgldbsgcpqyfjqff";
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+
+        $mail->setFrom('oscararias@tecnomotum.com', 'Oscar Arias');
+        $mail->addAddress("{$data['email']}");
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Heeey';
+        $mail->Body = '
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>CIM Capacitación</title>
+                <style>
+                    /* Reset styles */
+                    body, html {
+                        margin: 0;
+                        padding: 0;
+                        font-family: Arial, sans-serif;
+                        line-height: 1.6;
+                        background-color: #f4f4f4;
+                    }
+
+                    /* Container */
+                    .email-container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        border: 1px solid #dddddd;
+                    }
+
+                    /* Header */
+                    .header {
+                        background-color: #0073e6;
+                        color: #ffffff;
+                        padding: 20px;
+                        text-align: center;
+                    }
+
+                    .header h1 {
+                        margin: 0;
+                        font-size: 24px;
+                    }
+
+                    /* Content */
+                    .content {
+                        padding: 20px;
+                        color: #333333;
+                    }
+
+                    .content h2 {
+                        font-size: 20px;
+                        margin-top: 0;
+                    }
+
+                    .content p {
+                        font-size: 16px;
+                    }
+
+                    .content a {
+                        text-decoration: none;
+                    }
+
+                    .content a:hover {
+                        text-decoration: underline;
+                    }
+
+                    /* Button */
+                    .button {
+                        display: inline-block;
+                        color: #ffffff; /* Color del texto en blanco para mejor contraste */
+                        background-color: #0073e6; /* Color de fondo azul */
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        font-size: 16px;
+                        margin: 20px 0;
+                        border-radius: 5px;
+                    }
+
+                    .button:hover {
+                        background-color: #005bb5;
+                    }
+
+                    /* Footer */
+                    .footer {
+                        background-color: #f4f4f4;
+                        padding: 10px;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #777777;
+                    }
+
+                    .footer a {
+                        color: #0073e6;
+                        text-decoration: none;
+                    }
+
+                    .footer a:hover {
+                        text-decoration: underline;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="email-container">
+                    <!-- Header -->
+                    <div class="header">
+                        <h1>CIM - Capacitaciones</h1>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="content">
+                        <h2>Hola,' . $data['fullname'] . '!</h2>
+                        <p>Gracias por inscribirte en nuestra videollamada de capacitación CIM.</p>
+                        <p>Estamos emocionados de tenerte con nosotros y compartir contigo la guía básica de seguridad y protocolo de robo.</p>
+                        <p>Por favor, asegúrate de tener una conexión estable a internet y los requisitos técnicos necesarios para participar. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos en <a href="mailto:cim@tecnomotum.com">CIM</a>.</p>
+                        <p>Fecha: <b>' . $selectedDate . '</b></p>
+                        <p>Hora: <b>12:00pm</b></p>
+                        <a href="'. ($selectedDay == 2 ? $meetTuesday : $meetThursday) .'" class="button" target="_blank" rel="noopener noreferrer">Entrar</a>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        <p><!-- &copy; --> 2025 - Tecnomotum</p>
+                    </div>
+                </div>
+            </body>
+            </html>';
+        $mail->AltBody = 'AltBody';
+        // $mail->addAttachment("/home/user/Escritorio/imagendeejemplo.png", " imagendeejemplo.png");
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
+        $mail->send();
+        // echo 'Message has been sent';
+    } catch (Exception $e) {
+        // echo "Mailer Error: ".$e->getMessage();
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
