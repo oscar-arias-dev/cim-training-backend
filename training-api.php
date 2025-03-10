@@ -73,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     p.fullname, 
                     p.email, 
                     p.phone_number, 
-                    p.whatsapp
+                    p.whatsapp,
+                    p.platform
                 FROM enrollments e
                 INNER JOIN participants p ON e.id_participant = p.id
                 WHERE e.id_training = ?
@@ -92,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $currentDate = $data['date'] ?? null;
         $currentFullName = $data['fullname'] ?? null;
         $selectedDay = $data['day'] ?? null;
+        $imagePath = $data['platform'] === "TELEMATICS" ? "./assets/motum.png" : "./assets/EFL.png";
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
@@ -107,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
             $mail->isHTML(true);
             $mail->Subject = ('Capacitación con CIM - ' . $currentDate);
+            $mail->AddEmbeddedImage($imagePath, 'logo');
             $mail->Body = '
                 <!DOCTYPE html>
                 <html lang="en">
@@ -143,6 +146,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         .header h1 {
                             margin: 0;
                             font-size: 24px;
+                        }
+
+                        .header-image {
+                            max-width: 20%; /* Adjust this value to make the image smaller or larger */
+                            height: auto; /* Maintains aspect ratio */
+                            margin-bottom: 10px;
+                            padding: 5px;
+                            border-radius: 8px; /* Optional: Rounded corners */
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
                         }
     
                         /* Content */
@@ -207,6 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="email-container">
                         <!-- Header -->
                         <div class="header">
+                            <img class="header-image" src="cid:logo" alt="CIM Logo">
                             <h1>CIM - Capacitaciones</h1>
                         </div>
     
@@ -228,7 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </body>
                 </html>';
-            $mail->AltBody = 'AltBody';
+            $mail->AltBody = 'Capacitación con CIM';
             // $mail->addAttachment("/home/user/Escritorio/imagendeejemplo.png", " imagendeejemplo.png");
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
@@ -259,6 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$trainingId, $participantId]);
     echo json_encode(["p" => $participantId, "t" => $trainingId]);
     try {
+        $imagePath = $data['platform'] === "TELEMATICS" ? "./assets/motum.png" : "./assets/EFL.png";
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->SMTPAuth = true;
@@ -273,6 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail->isHTML(true);
         $mail->Subject = ('Capacitación con CIM - ' . $selectedDate);
+        $mail->AddEmbeddedImage($imagePath, 'logo');
         $mail->Body = '
             <!DOCTYPE html>
             <html lang="en">
@@ -309,6 +324,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     .header h1 {
                         margin: 0;
                         font-size: 24px;
+                    }
+
+                    .header-image {
+                        max-width: 20%; /* Adjust this value to make the image smaller or larger */
+                        height: auto; /* Maintains aspect ratio */
+                        margin-bottom: 10px;
+                        padding: 5px;
+                        border-radius: 8px; /* Optional: Rounded corners */
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
                     }
 
                     /* Content */
@@ -373,6 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="email-container">
                     <!-- Header -->
                     <div class="header">
+                        <img class="header-image" src="cid:logo" alt="CIM Logo">
                         <h1>CIM - Capacitaciones</h1>
                     </div>
 
@@ -394,7 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </body>
             </html>';
-        $mail->AltBody = 'AltBody';
+        $mail->AltBody = 'Capacitación con CIM';
         // $mail->addAttachment("/home/user/Escritorio/imagendeejemplo.png", " imagendeejemplo.png");
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
