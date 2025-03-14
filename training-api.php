@@ -213,6 +213,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         .footer a:hover {
                             text-decoration: underline;
                         }
+
+                        .button-word {
+                            color: #f4f4f4;
+                            padding: 0px 20px;
+                        }
                     </style>
                 </head>
                 <body>
@@ -231,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p>Por favor, asegúrate de tener una conexión estable a internet y los requisitos técnicos necesarios para participar. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos en <a href="mailto:cim@tecnomotum.com">CIM</a>.</p>
                             <p>Fecha: <b>' . $currentDate . '</b></p>
                             <p>Hora: <b>12:00pm</b></p>
-                            <a href="'. (strval($selectedDay) == "2" ? $meetTuesday : $meetThursday) .'" class="button" target="_blank" rel="noopener noreferrer">Entrar</a>
+                            <a href="'. (strval($selectedDay) == "2" ? $meetTuesday : $meetThursday) .'" class="button" target="_blank" rel="noopener noreferrer"><p class="button-word">Entrar</p></a>
                         </div>
     
                         <!-- Footer -->
@@ -363,10 +368,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         display: inline-block;
                         color: #ffffff; /* Color del texto en blanco para mejor contraste */
                         background-color: #0073e6; /* Color de fondo azul */
-                        padding: 10px 20px;
+                        
                         text-decoration: none;
                         font-size: 16px;
-                        margin: 20px 0;
+                        
                         border-radius: 5px;
                     }
 
@@ -391,6 +396,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     .footer a:hover {
                         text-decoration: underline;
                     }
+
+                    .button-word {
+                        color: #f4f4f4;
+                        padding: 0px 20px;
+                    }
                 </style>
             </head>
             <body>
@@ -409,7 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p>Por favor, asegúrate de tener una conexión estable a internet y los requisitos técnicos necesarios para participar. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos en <a href="mailto:cim@tecnomotum.com">CIM</a>.</p>
                         <p>Fecha: <b>' . $selectedDate . '</b></p>
                         <p>Hora: <b>12:00pm</b></p>
-                        <a href="'. (strval($selectedDay) === "2" ? $meetTuesday : $meetThursday) .'" class="button" target="_blank" rel="noopener noreferrer">Entrar</a>
+                        <a href="'. (strval($selectedDay) === "2" ? $meetTuesday : $meetThursday) .'" class="button" target="_blank" rel="noopener noreferrer"><p class="button-word">Entrar</p></a>
                     </div>
 
                     <!-- Footer -->
