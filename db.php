@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
+$host = '104.154.142.250';
 $dbname = 'cim_training';
-$username = 'root';
-$password = 'root';
+$username = 'srmotgnp24';
+$password = 'nj56q1npL93aG3eo';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
