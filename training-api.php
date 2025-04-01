@@ -74,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     p.email, 
                     p.phone_number, 
                     p.whatsapp,
-                    p.platform
+                    p.platform,
+                    p.customer
                 FROM enrollments e
                 INNER JOIN participants p ON e.id_participant = p.id
                 WHERE e.id_training = ?
