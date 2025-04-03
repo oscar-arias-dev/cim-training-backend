@@ -268,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $trainingId = null;
     if (count($fetchedDates) === 0) {
         $stmt = $conn->prepare("INSERT INTO training (date, link) VALUES (?, ?)");
-        $stmt->execute([$selectedDate, $selectedDay == "2" ? $meetTuesday : $meetThursday]);
+        $stmt->execute([$selectedDate, ($selectedDay == "1" || $selectedDay == 1) ? $meetTuesday : $meetThursday]);
         $trainingId = $conn->lastInsertId();
     } else {
         $trainingId = $fetchedDates[0]['id'];
