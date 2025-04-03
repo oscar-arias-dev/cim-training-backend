@@ -5,6 +5,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 $meetTuesday = 'https://meet.google.com/fyk-pjyw-fro';
 $meetThursday = 'https://meet.google.com/udb-ycho-qym';
 
@@ -439,7 +441,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         // echo "Mailer Error: ".$e->getMessage();
     }
-    $hasWhatsapp = $data['whatsapp'] ?? 0;
+    /* $hasWhatsapp = $data['whatsapp'] ?? 0;
     if ($hasWhatsapp === 1 || $hasWhatsapp === "1") {
         try {
             $waMessage = "Hola, " . $data['fullname'] . "\nGracias por inscribirte en nuestra videollamada de capacitación CIM.\nEstamos emocionados de tenerte con nosotros y compartir contigo la guía básica de seguridad y protocolo de robo.\nPor favor, asegúrate de tener una conexión estable a internet y los requisitos técnicos necesarios para participar. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos en cim@tecnomotum.com.\nFecha: " . $selectedDate . "\nHora: 12:00pm\nLink: ". (strval($selectedDay) === "2" ? $meetTuesday : $meetThursday);
@@ -462,7 +464,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             curl_close($cj);
         } catch (Exception $e) {
         }
-    }
+    } */
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
